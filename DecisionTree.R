@@ -46,7 +46,7 @@ library(rpart)
 
 # Ahora corremos el arbol que busca Survived relacionado con el resto de variables, tomando los data de df.train y como df.train$Survived es discreta (factor) usamos como method class, si fuera continua ponemos method="anova"
 
-fit <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, data=train, method="class")
+fit <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, data=df.train, method="class")
 
 #Para entender y ver el arbol de decision creado vamos primero a cargar otros tres paquetes y luego los importamos:
 

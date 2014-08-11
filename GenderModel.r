@@ -4,7 +4,7 @@
 
 
 # Set working directory 
-setwd("~/Kaggle/Titanic")
+setwd("~/Personal/GITHUB/Titanic/Titanic/")
 
 #import datafiles
 
@@ -29,12 +29,10 @@ test.column.types <- train.column.types[-2]     # # Como no existe la columna Su
 
 # This leaves me with much cleaner code for reading the csv files.
 
-train.raw <- readData(Titanic.path, train.data.file, 
-                      train.column.types, missing.types)
+train.raw <- read.csv(train.data.file)
 df.train <- train.raw
 
-test.raw <- readData(Titanic.path, test.data.file, 
-                     test.column.types, missing.types)
+test.raw <- read.csv(test.data.file)
 df.test <- test.raw   
 
 # DATA MUNGING
