@@ -8,9 +8,6 @@ setwd("~/Personal/GITHUB/Titanic/Titanic")
 
 #import datafiles
 
-Mi_GIT.path <- "https://github.com/FedericoTe/Titanic/"
-Nombre.train.data.file <- "train.csv"
-Nombre.test.data.file <- "test.csv"
 missing.types <- c("NA", "")
 train.column.types <- c('integer',   # PassengerId
                         'factor',    # Survived 
@@ -29,11 +26,10 @@ test.column.types <- train.column.types[-2]     # # Como no existe la columna Su
 
 # This leaves me with much cleaner code for reading the csv files.
 
-train.raw <- read.csv(Titanic.path, train.data.file, train.column.types, missing.types)
+train.raw <- read.csv("train.csv",header=TRUE,sep=",",colClasses = train.column.types, na.strings=missing.types)
 df.train <- train.raw
 
-test.raw <- readData(Titanic.path, test.data.file, 
-                     test.column.types, missing.types)
+test.raw <- read.csv("test.csv",header=TRUE,sep=",",colClasses = test.column.types, na.strings=missing.types)
 df.test <- test.raw   
 
 # DATA MUNGING
@@ -67,6 +63,16 @@ fancyRpartPlot(fit)
 
 # Para crear ahora el fichero a enviar usamos una funcion predict del paquete rpart
 
-Prediction <- predict(fit, test, type = "class")
+Prediction <- predict(fit, df.test, type = "class")
+
+# Si la variable fuera continua es mas util poner:
+#     Prediction <- predict(fit, df.test, interval=prediction)
+# donde nos dan el intevalo en el que se encuentra el 95% de datos, con:
+#     Prediction <- predict(fit, df.test, interval=confidence)
+# tenemos el intervalo con 95% alrededor del valor medio.
+
+
 submit <- data.frame(PassengerId = df.test$PassengerId, Survived = Prediction)
 write.csv(submit, file = "myfirstdtree.csv", row.names = FALSE)
+
+
