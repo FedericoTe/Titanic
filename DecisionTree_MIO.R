@@ -61,9 +61,23 @@ text(fit)
 
 fancyRpartPlot(fit)
 
+##################################
+#
+# ahora vamos a podar el arbol: prune()
+#
+
+#Primero calculamos el valor con menor CP, en nuestro caso: 0.010000
+min_cp <-  fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"]
+
+#Ahora la poda 
+
+pfit <- prune(fit, cp=min_cp)
+
+# en este ejemplo el arbol es el mismo!!! Se ve con: > fancyRpartPlot(pfit)
+
 # Para crear ahora el fichero a enviar usamos una funcion predict del paquete rpart
 
-Prediction <- predict(fit, df.test, type = "class")
+Prediction <- predict(pfit, df.test, type = "class")
 
 # Si la variable fuera continua es mas util poner:
 #     Prediction <- predict(fit, df.test, interval=prediction)
@@ -73,6 +87,7 @@ Prediction <- predict(fit, df.test, type = "class")
 
 
 submit <- data.frame(PassengerId = df.test$PassengerId, Survived = Prediction)
+
 write.csv(submit, file = "myfirstdtree.csv", row.names = FALSE)
 
 
